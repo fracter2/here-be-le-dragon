@@ -1,8 +1,20 @@
-[gd_scene load_steps=15 format=3 uid="uid://cau8xekrywn03"]
+[gd_scene load_steps=21 format=3 uid="uid://cau8xekrywn03"]
 
 [ext_resource type="PackedScene" uid="uid://d1gyep613eqe1" path="res://Content/Helicopter.tscn" id="1_k5ufn"]
 
+[sub_resource type="Gradient" id="Gradient_k5ufn"]
+offsets = PackedFloat32Array(0, 0.0833333, 0.205556, 0.288793, 0.336207, 0.372222, 0.405556, 0.527778, 0.588889, 0.8, 1)
+colors = PackedColorArray(0, 0, 0, 1, 7.52043e-10, 0.0477443, 0.000931324, 1, 0.119996, 0.0925577, 0.0441069, 1, 0.217604, 0.204931, 0.182553, 1, 0.301382, 0.301382, 0.301382, 1, 0.456231, 0.456231, 0.456231, 1, 0.51282, 0.483434, 0.425593, 1, 0.560762, 0.560762, 0.560762, 1, 0.605864, 0.582232, 0.51995, 1, 0.834705, 0.779139, 0.728304, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_t4kx2"]
+gradient = SubResource("Gradient_k5ufn")
+
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_t4kx2"]
+sky_top_color = Color(0.516013, 0.432784, 0.333942, 1)
+sky_horizon_color = Color(0.33653, 0.269842, 0.170804, 1)
+sky_curve = 0.27991
+ground_horizon_color = Color(0.337255, 0.270588, 0.172549, 1)
+sun_curve = 0.270376
 
 [sub_resource type="Sky" id="Sky_hlcxu"]
 sky_material = SubResource("ProceduralSkyMaterial_t4kx2")
@@ -11,6 +23,24 @@ process_mode = 3
 [sub_resource type="Environment" id="Environment_pq6nd"]
 background_mode = 2
 sky = SubResource("Sky_hlcxu")
+ambient_light_source = 2
+ambient_light_color = Color(0.0228915, 0.090661, 1.8049e-08, 1)
+tonemap_mode = 4
+glow_enabled = true
+glow_hdr_threshold = 0.83
+fog_enabled = true
+fog_mode = 1
+fog_light_color = Color(0.39146, 0.35297, 0.295208, 1)
+fog_sun_scatter = 0.33
+fog_density = 1.0
+fog_sky_affect = 0.809
+fog_height = 8.31
+fog_height_density = 0.1822
+fog_depth_curve = 0.225313
+fog_depth_begin = 149.9
+fog_depth_end = 250.0
+adjustment_enabled = true
+adjustment_color_correction = SubResource("GradientTexture1D_t4kx2")
 
 [sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_wdgk3"]
 
@@ -47,7 +77,7 @@ material = SubResource("StandardMaterial3D_d1ggt")
 size = Vector2(20000, 20000)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_k5ufn"]
-size = Vector3(20000, 1, 20000)
+size = Vector3(20000, 3.40912, 20000)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_t4kx2"]
 size = Vector3(80, 5, 80)
@@ -65,9 +95,40 @@ domain_warp_fractal_gain = 1.207
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_t4kx2"]
 noise = SubResource("FastNoiseLite_k5ufn")
 
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_hlcxu"]
+noise_type = 3
+fractal_type = 3
+domain_warp_enabled = true
+domain_warp_type = 2
+domain_warp_fractal_type = 2
+domain_warp_fractal_octaves = 3
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_pq6nd"]
+seamless = true
+noise = SubResource("FastNoiseLite_hlcxu")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_wdgk3"]
+noise_type = 3
+fractal_type = 3
+domain_warp_enabled = true
+domain_warp_type = 2
+domain_warp_fractal_type = 2
+domain_warp_fractal_octaves = 3
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_53wj3"]
+seamless = true
+as_normal_map = true
+noise = SubResource("FastNoiseLite_wdgk3")
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hlcxu"]
 albedo_color = Color(0.586272, 0.586272, 0.586272, 1)
 albedo_texture = SubResource("NoiseTexture2D_t4kx2")
+normal_enabled = true
+normal_texture = SubResource("NoiseTexture2D_53wj3")
+heightmap_enabled = true
+heightmap_texture = SubResource("NoiseTexture2D_pq6nd")
+distance_fade_min_distance = 0.61
+distance_fade_max_distance = 12.77
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_k5ufn"]
 
@@ -84,6 +145,7 @@ script = SubResource("GDScript_k5ufn")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.913886, 0.132017, -0.383906, 0.265785, 0.520252, 0.811601, 0.306873, -0.843748, 0.440363, 0, 16.5198, 0)
+light_energy = 0.295
 
 [node name="Map" type="Node3D" parent="."]
 
@@ -92,8 +154,10 @@ mesh = SubResource("PlaneMesh_k5ufn")
 metadata/_edit_group_ = true
 
 [node name="StaticBody3D" type="StaticBody3D" parent="Map/MeshInstance3D"]
+collision_priority = 100.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Map/MeshInstance3D/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.55234, 0)
 shape = SubResource("BoxShape3D_k5ufn")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="Map"]
@@ -112,12 +176,19 @@ material = SubResource("StandardMaterial3D_hlcxu")
 [node name="Helicopter" parent="Entities" instance=ExtResource("1_k5ufn")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.51246, 0)
 rotation_edit_mode = 2
-axis_lock_linear_x = true
-axis_lock_linear_y = true
-axis_lock_linear_z = true
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
-_spawnable_scenes = PackedStringArray("")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_k5ufn")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.9128, 4.31812, -4.21258)
+light_energy = 8.351
+
+[node name="SpotLight3D" type="SpotLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.960745, 0.277432, 0, -0.277432, 0.960745, -9.19285, 6.80372, -7.6622)
+light_energy = 5.81
+spot_range = 13.8376
+spot_angle = 10.4154
+spot_angle_attenuation = 0.0106722
