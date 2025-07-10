@@ -52,7 +52,7 @@ func _physics_process(delta: float) -> void:
 	apply_torque(basis * rot)
 	
 	#var rotaded_thrust: Vector3 = (Vector3.UP * input_thrust * speed_thrust) * global_basis
-	var rotaded_thrust: Vector3 = (Vector3.UP * input_thrust * speed_thrust) * basis.orthonormalized()
+	var rotaded_thrust: Vector3 = basis.orthonormalized() * (Vector3.UP * input_thrust * speed_thrust)
 	#apply_central_force(Vector3.UP * input_thrust * speed_thrust)
 	apply_central_force(rotaded_thrust)
 	debug_thrust_pointer.position = basis.orthonormalized() * (4 * Vector3.UP)
