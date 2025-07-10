@@ -1,0 +1,123 @@
+[gd_scene load_steps=15 format=3 uid="uid://cau8xekrywn03"]
+
+[ext_resource type="PackedScene" uid="uid://d1gyep613eqe1" path="res://Content/Helicopter.tscn" id="1_k5ufn"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_t4kx2"]
+
+[sub_resource type="Sky" id="Sky_hlcxu"]
+sky_material = SubResource("ProceduralSkyMaterial_t4kx2")
+process_mode = 3
+
+[sub_resource type="Environment" id="Environment_pq6nd"]
+background_mode = 2
+sky = SubResource("Sky_hlcxu")
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_wdgk3"]
+
+[sub_resource type="GDScript" id="GDScript_k5ufn"]
+resource_name = "tempCamSwapScript"
+script/source = "extends Camera3D
+
+
+var prev_cam:Camera3D
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
+	pass
+
+func _physics_process(delta: float) -> void:
+	if Input.is_action_just_pressed(&\"debug_1\"):
+		if current and prev_cam != null:
+			if is_instance_valid(prev_cam):
+				prev_cam.make_current()
+		else:
+			prev_cam = get_viewport().get_camera_3d()
+			make_current()
+"
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_d1ggt"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_k5ufn"]
+material = SubResource("StandardMaterial3D_d1ggt")
+size = Vector2(20000, 20000)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_k5ufn"]
+size = Vector3(20000, 1, 20000)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_t4kx2"]
+size = Vector3(80, 5, 80)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_k5ufn"]
+noise_type = 3
+fractal_type = 3
+domain_warp_enabled = true
+domain_warp_type = 2
+domain_warp_amplitude = 21.42
+domain_warp_fractal_type = 2
+domain_warp_fractal_octaves = 3
+domain_warp_fractal_gain = 1.207
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_t4kx2"]
+noise = SubResource("FastNoiseLite_k5ufn")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hlcxu"]
+albedo_color = Color(0.586272, 0.586272, 0.586272, 1)
+albedo_texture = SubResource("NoiseTexture2D_t4kx2")
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_k5ufn"]
+
+[node name="World" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_pq6nd")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(0.947769, 0.104918, -0.301207, 0, 0.944351, 0.328941, 0.318957, -0.31176, 0.895026, -4.66732, 11.3223, 12.0528)
+attributes = SubResource("CameraAttributesPractical_wdgk3")
+fov = 78.9
+script = SubResource("GDScript_k5ufn")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.913886, 0.132017, -0.383906, 0.265785, 0.520252, 0.811601, 0.306873, -0.843748, 0.440363, 0, 16.5198, 0)
+
+[node name="Map" type="Node3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Map"]
+mesh = SubResource("PlaneMesh_k5ufn")
+metadata/_edit_group_ = true
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Map/MeshInstance3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Map/MeshInstance3D/StaticBody3D"]
+shape = SubResource("BoxShape3D_k5ufn")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Map"]
+collision_priority = 100.0
+metadata/_edit_group_ = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Map/StaticBody3D"]
+shape = SubResource("BoxShape3D_t4kx2")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Map/StaticBody3D/CollisionShape3D"]
+size = Vector3(80, 5, 80)
+material = SubResource("StandardMaterial3D_hlcxu")
+
+[node name="Entities" type="Node3D" parent="."]
+
+[node name="Helicopter" parent="Entities" instance=ExtResource("1_k5ufn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.51246, 0)
+rotation_edit_mode = 2
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_k5ufn")

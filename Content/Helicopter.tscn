@@ -1,0 +1,63 @@
+[gd_scene load_steps=7 format=3 uid="uid://d1gyep613eqe1"]
+
+[ext_resource type="Script" uid="uid://dnxlejlb5vxb3" path="res://Content/helicopter.gd" id="1_nikds"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_6r8wy"]
+size = Vector3(2, 2, 3.5)
+
+[sub_resource type="Gradient" id="Gradient_nikds"]
+offsets = PackedFloat32Array(0.374269)
+colors = PackedColorArray(0.869807, 0.504366, 0.187352, 0.901961)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_6r8wy"]
+gradient = SubResource("Gradient_nikds")
+fill_from = Vector2(0.278884, 0.703187)
+fill_to = Vector2(0.701195, 0.368526)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_te4uw"]
+transparency = 1
+no_depth_test = true
+shading_mode = 2
+albedo_texture = SubResource("GradientTexture2D_6r8wy")
+disable_receive_shadows = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_nikds"]
+material = SubResource("StandardMaterial3D_te4uw")
+size = Vector3(0.35, 0.2, 0.55)
+
+[node name="Helicopter" type="RigidBody3D"]
+mass = 300.0
+linear_damp = 0.486
+angular_damp = 2.274
+script = ExtResource("1_nikds")
+speed_pitch = 3.0
+speed_barrel = 3.0
+speed_yaw = 3.0
+speed_thrust = 12000.0
+flip_pitch = -1.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.411, -0.511)
+shape = SubResource("BoxShape3D_6r8wy")
+disabled = true
+metadata/_edit_group_ = true
+
+[node name="Body" type="CSGBox3D" parent="CollisionShape3D"]
+size = Vector3(2, 2, 3.5)
+
+[node name="Tail" type="CSGBox3D" parent="CollisionShape3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.661385, 3.62704)
+size = Vector3(0.649, 0.704, 3.76259)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="CollisionShape3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.860343, 0)
+size = Vector3(6.023, 0.384, 1)
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.915663, 0.401948, 0, -0.401948, 0.915663, 0, 8.42, 15.395)
+current = true
+fov = 95.6
+
+[node name="DebugThrustPointer" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.06678, 0)
+mesh = SubResource("BoxMesh_nikds")
