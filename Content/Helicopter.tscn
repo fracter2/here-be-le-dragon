@@ -26,6 +26,7 @@ material = SubResource("StandardMaterial3D_te4uw")
 size = Vector3(0.35, 0.2, 0.55)
 
 [node name="Helicopter" type="RigidBody3D"]
+collision_layer = 2
 mass = 300.0
 linear_damp = 0.486
 angular_damp = 2.274
@@ -45,19 +46,44 @@ metadata/_edit_group_ = true
 [node name="Body" type="CSGBox3D" parent="CollisionShape3D"]
 size = Vector3(2, 2, 3.5)
 
+[node name="SpotLight3D" type="SpotLight3D" parent="CollisionShape3D/Body"]
+transform = Transform3D(0.995396, 0.0324666, -0.0901794, 0, 0.940881, 0.338738, 0.0958458, -0.337178, 0.936549, -0.5, -0.61, -1.866)
+light_color = Color(0.490196, 0.784314, 0.6, 1)
+light_energy = 9.343
+spot_range = 200.0
+spot_angle = 7.30726
+spot_angle_attenuation = 0.210224
+
+[node name="SpotLight3D2" type="SpotLight3D" parent="CollisionShape3D/Body"]
+transform = Transform3D(0.995396, -0.0324666, 0.0901794, 0, 0.940881, 0.338738, -0.0958458, -0.337178, 0.936549, 0.5, -0.61, -1.866)
+light_color = Color(0.490196, 0.784314, 0.6, 1)
+light_energy = 9.343
+spot_range = 200.0
+spot_angle = 7.30726
+spot_angle_attenuation = 0.210224
+
 [node name="Tail" type="CSGBox3D" parent="CollisionShape3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.661385, 3.62704)
 size = Vector3(0.649, 0.704, 3.76259)
+
+[node name="Tail light" type="OmniLight3D" parent="CollisionShape3D/Tail"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.518364, 1.91461)
+light_color = Color(0.490883, 0.784855, 0.599776, 1)
+light_energy = 5.319
+light_bake_mode = 0
+omni_range = 6.812
 
 [node name="CSGBox3D" type="CSGBox3D" parent="CollisionShape3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.860343, 0)
 size = Vector3(6.023, 0.384, 1)
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.915663, 0.401948, 0, -0.401948, 0.915663, 0, 8.42, 15.395)
+transform = Transform3D(1, 0, 0, 0, 0.915663, 0.401948, 0, -0.401948, 0.915663, -0.00338459, 9.57543, 10.5039)
 current = true
-fov = 95.6
+fov = 71.1
+far = 750.0
 
 [node name="DebugThrustPointer" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.06678, 0)
+visible = false
 mesh = SubResource("BoxMesh_nikds")
