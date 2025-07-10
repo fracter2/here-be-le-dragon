@@ -47,19 +47,21 @@ metadata/_edit_group_ = true
 size = Vector3(2, 2, 3.5)
 
 [node name="SpotLight3D" type="SpotLight3D" parent="CollisionShape3D/Body"]
-transform = Transform3D(0.995396, 0.0324666, -0.0901794, 0, 0.940881, 0.338738, 0.0958458, -0.337178, 0.936549, -0.5, -0.61, -1.866)
+transform = Transform3D(0.990268, -0.0471432, 0.130945, 0, 0.940881, 0.338738, -0.139173, -0.335441, 0.931724, -0.5, -0.61, -1.866)
 light_color = Color(0.490196, 0.784314, 0.6, 1)
-light_energy = 9.343
+light_energy = 11.736
+light_size = 0.159
 spot_range = 200.0
-spot_angle = 7.30726
+spot_angle = 18.26
 spot_angle_attenuation = 0.210224
 
 [node name="SpotLight3D2" type="SpotLight3D" parent="CollisionShape3D/Body"]
-transform = Transform3D(0.995396, -0.0324666, 0.0901794, 0, 0.940881, 0.338738, -0.0958458, -0.337178, 0.936549, 0.5, -0.61, -1.866)
+transform = Transform3D(0.990268, 0.0471432, -0.130945, 0, 0.940881, 0.338738, 0.139173, -0.335441, 0.931724, 0.5, -0.61, -1.866)
 light_color = Color(0.490196, 0.784314, 0.6, 1)
-light_energy = 9.343
+light_energy = 11.736
+light_size = 0.159
 spot_range = 200.0
-spot_angle = 7.30726
+spot_angle = 18.26
 spot_angle_attenuation = 0.210224
 
 [node name="Tail" type="CSGBox3D" parent="CollisionShape3D"]
