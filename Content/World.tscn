@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://cau8xekrywn03"]
+[gd_scene load_steps=26 format=3 uid="uid://cau8xekrywn03"]
 
 [ext_resource type="PackedScene" uid="uid://d1gyep613eqe1" path="res://Content/Helicopter.tscn" id="1_k5ufn"]
 
@@ -137,6 +137,35 @@ distance_fade_max_distance = 12.77
 [sub_resource type="BoxShape3D" id="BoxShape3D_t4kx2"]
 size = Vector3(80, 5, 80)
 
+[sub_resource type="Gradient" id="Gradient_t4kx2"]
+offsets = PackedFloat32Array(0, 0.0135747, 1)
+colors = PackedColorArray(0, 0, 0, 1, 0.319748, 0.571596, 0.957805, 1, 1, 1, 1, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_pq6nd"]
+noise_type = 3
+seed = 69
+offset = Vector3(-682.93, 0, 0)
+fractal_type = 2
+fractal_lacunarity = 5.303
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_wdgk3"]
+seamless = true
+color_ramp = SubResource("Gradient_t4kx2")
+noise = SubResource("FastNoiseLite_pq6nd")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_53wj3"]
+albedo_texture = SubResource("NoiseTexture2D_wdgk3")
+metallic = 0.26
+metallic_specular = 0.0
+roughness = 0.48
+subsurf_scatter_enabled = true
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_by8gy"]
+material = SubResource("StandardMaterial3D_53wj3")
+top_radius = 1.0
+bottom_radius = 10.0
+height = 3.218
+
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_k5ufn"]
 
 [node name="World" type="Node3D"]
@@ -185,6 +214,10 @@ metadata/_edit_group_ = true
 visible = false
 shape = SubResource("BoxShape3D_t4kx2")
 disabled = true
+
+[node name="feli mesh" type="MeshInstance3D" parent="Map"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -56.6404, 1.28805, -6.01206)
+mesh = SubResource("CylinderMesh_by8gy")
 
 [node name="Entities" type="Node3D" parent="."]
 
