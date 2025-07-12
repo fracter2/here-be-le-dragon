@@ -3,7 +3,9 @@
 [ext_resource type="PackedScene" uid="uid://d1gyep613eqe1" path="res://Content/Helicopter.tscn" id="1_k5ufn"]
 
 [sub_resource type="Gradient" id="Gradient_k5ufn"]
-interpolation_mode = 2
+interpolation_color_space = 1
+offsets = PackedFloat32Array(0, 0.233766, 0.385281, 0.597403, 0.623377, 1)
+colors = PackedColorArray(0, 0, 0, 1, 0.0937679, 0.093768, 0.0937679, 1, 0.130194, 0.130195, 0.130194, 1, 0.654526, 0.654526, 0.654526, 1, 0.804127, 0.804128, 0.804127, 1, 1, 1, 1, 1)
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_t4kx2"]
 gradient = SubResource("Gradient_k5ufn")
@@ -28,17 +30,16 @@ tonemap_mode = 4
 glow_enabled = true
 glow_hdr_threshold = 0.83
 fog_enabled = true
-fog_mode = 1
 fog_light_color = Color(0.556957, 0.509324, 0.437992, 1)
 fog_light_energy = 0.33
-fog_sun_scatter = 0.33
-fog_density = 1.0
+fog_sun_scatter = 0.18
+fog_density = 0.0256
+fog_aerial_perspective = 0.181
 fog_sky_affect = 0.809
-fog_height = 30.32
-fog_height_density = 0.0611
+fog_height_density = 0.0016
 fog_depth_curve = 0.0563288
-fog_depth_begin = 50.0
-fog_depth_end = 250.0
+fog_depth_begin = 75.1
+fog_depth_end = 300.5
 adjustment_enabled = true
 adjustment_color_correction = SubResource("GradientTexture1D_t4kx2")
 
@@ -71,6 +72,11 @@ func _physics_process(delta: float) -> void:
 "
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_d1ggt"]
+rim = 0.0
+proximity_fade_distance = 2247.84
+distance_fade_mode = 2
+distance_fade_min_distance = 250.0
+distance_fade_max_distance = 120.0
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_k5ufn"]
 material = SubResource("StandardMaterial3D_d1ggt")
@@ -153,6 +159,7 @@ light_energy = 1.046
 [node name="Map" type="Node3D" parent="."]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Map"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
 mesh = SubResource("PlaneMesh_k5ufn")
 metadata/_edit_group_ = true
 
@@ -164,6 +171,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.55234, 0)
 shape = SubResource("BoxShape3D_k5ufn")
 
 [node name="CSGBox3D" type="CSGBox3D" parent="Map"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0045166, 0.0504408, -0.0130348)
 use_collision = true
 size = Vector3(80, 5, 80)
 material = SubResource("StandardMaterial3D_hlcxu")
@@ -190,12 +198,14 @@ rotation_edit_mode = 2
 replication_config = SubResource("SceneReplicationConfig_k5ufn")
 
 [node name="OmniLight3D" type="OmniLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.9128, 4.31812, -4.21258)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15.973, 4.31812, 5.35193)
 light_energy = 8.351
+omni_range = 5.8817
 
 [node name="SpotLight3D" type="SpotLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.960745, 0.277432, 0, -0.277432, 0.960745, -9.19285, 6.80372, -7.6622)
-light_energy = 5.81
-spot_range = 13.8376
-spot_angle = 10.4154
-spot_angle_attenuation = 0.0106722
+transform = Transform3D(1, 0, 0, 0, 0.960745, 0.277432, 0, -0.277432, 0.960745, -31.2542, 12.7703, 16.0375)
+light_energy = 11.896
+spot_range = 55.5272
+spot_attenuation = 0.57
+spot_angle = 24.9844
+spot_angle_attenuation = 0.203063
