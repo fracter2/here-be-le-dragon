@@ -32,7 +32,9 @@ linear_damp = 0.1
 angular_damp = 0.8
 script = ExtResource("1_nikds")
 flip_pitch = -1.0
-rotation_multiplier = 200.0
+rotation_multiplier = 300.0
+rotation_pitch = 3.0
+rotation_yaw = 2.0
 thrust_up = 30.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
@@ -46,31 +48,33 @@ size = Vector3(2, 2, 3.5)
 [node name="SpotLight3D" type="SpotLight3D" parent="CollisionShape3D/Body"]
 transform = Transform3D(0.990268, -0.0471432, 0.130945, 0, 0.940881, 0.338738, -0.139173, -0.335441, 0.931724, -0.5, -0.61, -1.866)
 light_color = Color(0.490196, 0.784314, 0.6, 1)
-light_energy = 11.736
-light_size = 0.159
-spot_range = 200.0
+light_energy = 14.4
+spot_range = 300.0
+spot_attenuation = 0.65
 spot_angle = 18.26
-spot_angle_attenuation = 0.210224
+spot_angle_attenuation = 0.267944
 
 [node name="SpotLight3D2" type="SpotLight3D" parent="CollisionShape3D/Body"]
 transform = Transform3D(0.990268, 0.0471432, -0.130945, 0, 0.940881, 0.338738, 0.139173, -0.335441, 0.931724, 0.5, -0.61, -1.866)
 light_color = Color(0.490196, 0.784314, 0.6, 1)
 light_energy = 11.736
 light_size = 0.159
-spot_range = 200.0
+spot_range = 300.0
+spot_attenuation = 0.65
 spot_angle = 18.26
-spot_angle_attenuation = 0.210224
+spot_angle_attenuation = 0.267944
 
 [node name="Tail" type="CSGBox3D" parent="CollisionShape3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.661385, 3.62704)
 size = Vector3(0.649, 0.704, 3.76259)
 
 [node name="Tail light" type="OmniLight3D" parent="CollisionShape3D/Tail"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.518364, 1.91461)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0135685, 0.596987, 1.9501)
 light_color = Color(0.490883, 0.784855, 0.599776, 1)
-light_energy = 5.319
+light_energy = 8.461
 light_bake_mode = 0
-omni_range = 6.812
+omni_range = 9.43334
+omni_attenuation = 2.0
 
 [node name="CSGBox3D" type="CSGBox3D" parent="CollisionShape3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.860343, 0)
