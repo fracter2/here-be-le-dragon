@@ -3,8 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://d1gyep613eqe1" path="res://Content/Helicopter.tscn" id="1_k5ufn"]
 
 [sub_resource type="Gradient" id="Gradient_k5ufn"]
-offsets = PackedFloat32Array(0, 0.0833333, 0.205556, 0.288793, 0.336207, 0.372222, 0.405556, 0.527778, 0.588889, 0.8, 1)
-colors = PackedColorArray(0, 0, 0, 1, 7.52043e-10, 0.0477443, 0.000931324, 1, 0.119996, 0.0925577, 0.0441069, 1, 0.217604, 0.204931, 0.182553, 1, 0.301382, 0.301382, 0.301382, 1, 0.456231, 0.456231, 0.456231, 1, 0.51282, 0.483434, 0.425593, 1, 0.560762, 0.560762, 0.560762, 1, 0.605864, 0.582232, 0.51995, 1, 0.834705, 0.779139, 0.728304, 1, 1, 1, 1, 1)
+interpolation_mode = 2
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_t4kx2"]
 gradient = SubResource("Gradient_k5ufn")
@@ -30,7 +29,8 @@ glow_enabled = true
 glow_hdr_threshold = 0.83
 fog_enabled = true
 fog_mode = 1
-fog_light_color = Color(0.39146, 0.35297, 0.295208, 1)
+fog_light_color = Color(0.556957, 0.509324, 0.437992, 1)
+fog_light_energy = 0.33
 fog_sun_scatter = 0.33
 fog_density = 1.0
 fog_sky_affect = 0.809
@@ -79,9 +79,6 @@ size = Vector2(20000, 20000)
 [sub_resource type="BoxShape3D" id="BoxShape3D_k5ufn"]
 size = Vector3(20000, 3.40912, 20000)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_t4kx2"]
-size = Vector3(80, 5, 80)
-
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_k5ufn"]
 noise_type = 3
 fractal_type = 3
@@ -125,10 +122,14 @@ albedo_color = Color(0.586272, 0.586272, 0.586272, 1)
 albedo_texture = SubResource("NoiseTexture2D_t4kx2")
 normal_enabled = true
 normal_texture = SubResource("NoiseTexture2D_53wj3")
+rim_enabled = true
 heightmap_enabled = true
 heightmap_texture = SubResource("NoiseTexture2D_pq6nd")
 distance_fade_min_distance = 0.61
 distance_fade_max_distance = 12.77
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_t4kx2"]
+size = Vector3(80, 5, 80)
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_k5ufn"]
 
@@ -141,11 +142,13 @@ environment = SubResource("Environment_pq6nd")
 transform = Transform3D(0.947769, 0.104918, -0.301207, 0, 0.944351, 0.328941, 0.318957, -0.31176, 0.895026, -4.66732, 11.3223, 12.0528)
 attributes = SubResource("CameraAttributesPractical_wdgk3")
 fov = 78.9
+far = 750.0
 script = SubResource("GDScript_k5ufn")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.913886, 0.132017, -0.383906, 0.265785, 0.520252, 0.811601, 0.306873, -0.843748, 0.440363, 0, 16.5198, 0)
-light_energy = 0.295
+light_color = Color(0.813536, 0.762062, 0.713064, 1)
+light_energy = 1.046
 
 [node name="Map" type="Node3D" parent="."]
 
@@ -160,16 +163,20 @@ collision_priority = 100.0
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.55234, 0)
 shape = SubResource("BoxShape3D_k5ufn")
 
+[node name="CSGBox3D" type="CSGBox3D" parent="Map"]
+use_collision = true
+size = Vector3(80, 5, 80)
+material = SubResource("StandardMaterial3D_hlcxu")
+
 [node name="StaticBody3D" type="StaticBody3D" parent="Map"]
+visible = false
 collision_priority = 100.0
 metadata/_edit_group_ = true
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Map/StaticBody3D"]
+visible = false
 shape = SubResource("BoxShape3D_t4kx2")
-
-[node name="CSGBox3D" type="CSGBox3D" parent="Map/StaticBody3D/CollisionShape3D"]
-size = Vector3(80, 5, 80)
-material = SubResource("StandardMaterial3D_hlcxu")
+disabled = true
 
 [node name="Entities" type="Node3D" parent="."]
 
