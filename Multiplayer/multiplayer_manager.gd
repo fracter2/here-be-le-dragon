@@ -66,8 +66,8 @@ func _del_player(id: int):
 
 func _remove_single_player():
 	print("Remove single player")
-	var player_to_remove = get_tree().current_scene.get_node("Singleplayer Helicopter")
-	player_to_remove.queue_free()
+	var player_to_remove = get_tree().current_scene.get_node_or_null("Singleplayer Helicopter")
+	if player_to_remove != null: player_to_remove.queue_free()
 
 
 func is_valid_port(n:int, print_error: bool = false):

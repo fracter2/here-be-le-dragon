@@ -1,6 +1,32 @@
-[gd_scene load_steps=7 format=3 uid="uid://d1gyep613eqe1"]
+[gd_scene load_steps=10 format=3 uid="uid://d1gyep613eqe1"]
 
 [ext_resource type="Script" uid="uid://dnxlejlb5vxb3" path="res://Content/helicopter.gd" id="1_nikds"]
+[ext_resource type="Script" uid="uid://ue7etq887xes" path="res://Multiplayer/multiplayer_input.gd" id="2_6r8wy"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_6r8wy"]
+properties/0/path = NodePath(".:player_id")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:position")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath(".:rotation")
+properties/2/spawn = true
+properties/2/replication_mode = 1
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_te4uw"]
+properties/0/path = NodePath("InputSynchronizer:input_pitch")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath("InputSynchronizer:input_barrel")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath("InputSynchronizer:input_yaw")
+properties/2/spawn = true
+properties/2/replication_mode = 1
+properties/3/path = NodePath("InputSynchronizer:input_thrust")
+properties/3/spawn = true
+properties/3/replication_mode = 1
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_6r8wy"]
 size = Vector3(2, 2, 3.5)
@@ -31,11 +57,18 @@ mass = 300.0
 linear_damp = 0.1
 angular_damp = 0.8
 script = ExtResource("1_nikds")
-flip_pitch = -1.0
 rotation_multiplier = 300.0
 rotation_pitch = 3.0
 rotation_yaw = 2.0
 thrust_up = 30.0
+
+[node name="PlayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_6r8wy")
+
+[node name="InputSynchronizer" type="MultiplayerSynchronizer" parent="."]
+unique_name_in_owner = true
+replication_config = SubResource("SceneReplicationConfig_te4uw")
+script = ExtResource("2_6r8wy")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.411, -0.511)
@@ -82,7 +115,6 @@ size = Vector3(6.023, 0.384, 1)
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.915663, 0.401948, 0, -0.401948, 0.915663, -0.00338459, 9.57543, 10.5039)
-current = true
 fov = 71.1
 far = 750.0
 
@@ -97,3 +129,7 @@ mesh = SubResource("BoxMesh_nikds")
 visible = false
 offset_right = 40.0
 offset_bottom = 40.0
+
+[node name="Label3D" type="Label3D" parent="."]
+transform = Transform3D(0.00839493, 0, -0.999965, 0, 1, 0, 0.999965, 0, 0.00839493, -1.05062, 0.0717086, -1.00268)
+text = "YOYOYODD"
