@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://cau8xekrywn03"]
+[gd_scene load_steps=27 format=3 uid="uid://cau8xekrywn03"]
 
 [ext_resource type="PackedScene" uid="uid://d1gyep613eqe1" path="res://Content/Helicopter.tscn" id="1_k5ufn"]
 
@@ -166,7 +166,65 @@ top_radius = 1.0
 bottom_radius = 10.0
 height = 3.218
 
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_k5ufn"]
+[sub_resource type="GDScript" id="GDScript_t4kx2"]
+resource_name = "join_game_dialogue"
+script/source = "extends PanelContainer
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
+	pass
+
+
+func _input(event: InputEvent) -> void:
+	if event.is_action_pressed(&\"Menu\"):
+		visible = not visible
+
+
+func _on_button_host_button_down() -> void:
+	var port: String = $\"MarginContainer/VBoxContainer/port box/PortTextBox\".text
+	if not port.is_valid_int(): return
+	if not MultiplayerManager.is_valid_port(port.to_int()): return
+	
+	MultiplayerManager.become_host(port.to_int())
+
+
+func _on_button_join_button_down() -> void:
+	var port: String = $\"MarginContainer/VBoxContainer/port box/PortTextBox\".text
+	if not port.is_valid_int(): return
+	if not MultiplayerManager.is_valid_port(port.to_int()): return
+	
+	var ip: String = $\"MarginContainer/VBoxContainer/IP box/IPTextBox\".text
+	if not ip.is_valid_ip_address(): return
+	
+	MultiplayerManager.join(ip, port.to_int())
+"
+
+[sub_resource type="GDScript" id="GDScript_hlcxu"]
+resource_name = "synced_label"
+script/source = "extends Label
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
+	if Input.is_action_just_pressed(&\"debug_2\"): label_popup.rpc()
+
+
+@rpc(\"any_peer\", \"call_local\", \"unreliable\")
+func label_popup():
+	visible = not visible
+	 
+"
 
 [node name="World" type="Node3D"]
 
@@ -205,12 +263,12 @@ use_collision = true
 size = Vector3(80, 5, 80)
 material = SubResource("StandardMaterial3D_hlcxu")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="Map"]
+[node name="Spawn Plate" type="StaticBody3D" parent="Map"]
 visible = false
 collision_priority = 100.0
 metadata/_edit_group_ = true
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Map/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Map/Spawn Plate"]
 visible = false
 shape = SubResource("BoxShape3D_t4kx2")
 disabled = true
@@ -219,16 +277,9 @@ disabled = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -56.6404, 1.28805, -6.01206)
 mesh = SubResource("CylinderMesh_by8gy")
 
-[node name="Entities" type="Node3D" parent="."]
-
-[node name="Helicopter" parent="Entities" instance=ExtResource("1_k5ufn")]
+[node name="Singleplayer Helicopter" parent="." instance=ExtResource("1_k5ufn")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.51246, 0)
 rotation_edit_mode = 2
-
-[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
-
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
-replication_config = SubResource("SceneReplicationConfig_k5ufn")
 
 [node name="OmniLight3D" type="OmniLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15.973, 4.31812, 5.35193)
@@ -242,3 +293,94 @@ spot_range = 55.5272
 spot_attenuation = 0.57
 spot_angle = 24.9844
 spot_angle_attenuation = 0.203063
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("uid://d1gyep613eqe1")
+spawn_path = NodePath("../Players")
+spawn_limit = 16
+
+[node name="Players" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.25382, 0)
+
+[node name="Menu" type="CanvasLayer" parent="."]
+
+[node name="Join Game Dialauge" type="PanelContainer" parent="Menu"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -111.0
+offset_top = -66.5
+offset_right = 111.0
+offset_bottom = 66.5
+grow_horizontal = 2
+grow_vertical = 2
+script = SubResource("GDScript_t4kx2")
+
+[node name="MarginContainer" type="MarginContainer" parent="Menu/Join Game Dialauge"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Menu/Join Game Dialauge/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 3
+
+[node name="Label" type="Label" parent="Menu/Join Game Dialauge/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Multiplayer Panel (M)"
+horizontal_alignment = 1
+
+[node name="port box" type="HBoxContainer" parent="Menu/Join Game Dialauge/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Menu/Join Game Dialauge/MarginContainer/VBoxContainer/port box"]
+layout_mode = 2
+text = "Port:"
+
+[node name="PortTextBox" type="LineEdit" parent="Menu/Join Game Dialauge/MarginContainer/VBoxContainer/port box"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "8080"
+placeholder_text = "8080"
+
+[node name="IP box" type="HBoxContainer" parent="Menu/Join Game Dialauge/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Menu/Join Game Dialauge/MarginContainer/VBoxContainer/IP box"]
+layout_mode = 2
+text = "Target IP: "
+
+[node name="IPTextBox" type="LineEdit" parent="Menu/Join Game Dialauge/MarginContainer/VBoxContainer/IP box"]
+custom_minimum_size = Vector2(132, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "127.0.0.1"
+placeholder_text = "127.0.0.1"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Menu/Join Game Dialauge/MarginContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="ButtonHost" type="Button" parent="Menu/Join Game Dialauge/MarginContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
+text = "HOST"
+
+[node name="ButtonJoin" type="Button" parent="Menu/Join Game Dialauge/MarginContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
+text = "JOIN"
+
+[node name="LineEdit" type="Label" parent="Menu"]
+visible = false
+offset_right = 68.5625
+offset_bottom = 31.0
+text = "yo"
+script = SubResource("GDScript_hlcxu")
+
+[connection signal="button_down" from="Menu/Join Game Dialauge/MarginContainer/VBoxContainer/HBoxContainer/ButtonHost" to="Menu/Join Game Dialauge" method="_on_button_host_button_down"]
+[connection signal="button_down" from="Menu/Join Game Dialauge/MarginContainer/VBoxContainer/HBoxContainer/ButtonJoin" to="Menu/Join Game Dialauge" method="_on_button_join_button_down"]

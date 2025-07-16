@@ -1,9 +1,11 @@
 extends RigidBody3D
 
+@export var player_id:int = 1:
+	set(id):
+		player_id = id
+
 @export var flip_pitch : float = 1
 @export var multiply_by_mass: bool = true
-
-
 
 @export_group("Rotation", "rotation_")
 @export var rotation_multiplier: float = 1
