@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://cau8xekrywn03"]
+[gd_scene load_steps=29 format=3 uid="uid://cau8xekrywn03"]
 
 [ext_resource type="PackedScene" uid="uid://d1gyep613eqe1" path="res://Content/Helicopter.tscn" id="1_k5ufn"]
 
@@ -173,7 +173,7 @@ script/source = "extends PanelContainer
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	MultiplayerManager.player_joined.connect(_on_successfull_join_or_host)
+	MultiplayerManager.local_joined.connect(_on_sucessfull_join_or_host)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -204,9 +204,11 @@ func _on_button_join_button_down() -> void:
 	
 	MultiplayerManager.join(ip, port.to_int())
 
-func _on_successfull_join_or_host():
+func _on_sucessfull_join_or_host():
 	visible = not visible
 "
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_k5ufn"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_k5ufn"]
 font_size = 14
@@ -338,11 +340,13 @@ layout_mode = 2
 theme_override_constants/separation = 3
 
 [node name="Label" type="Label" parent="Menu/Join Game Dialauge/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 28)
 layout_mode = 2
 text = "Multiplayer Panel"
 horizontal_alignment = 1
 
 [node name="PilotNameBox" type="HBoxContainer" parent="Menu/Join Game Dialauge/MarginContainer/VBoxContainer"]
+visible = false
 layout_mode = 2
 
 [node name="Label" type="Label" parent="Menu/Join Game Dialauge/MarginContainer/VBoxContainer/PilotNameBox"]
@@ -377,13 +381,26 @@ text = "Vehicle Colors"
 
 [node name="ColorPrimary" type="ColorPickerButton" parent="Menu/Join Game Dialauge/MarginContainer/VBoxContainer/VehicleColorBox"]
 layout_mode = 2
+size_flags_horizontal = 3
 text = "Primary"
 color = Color(0.566967, 0.566967, 0.566967, 1)
 
 [node name="ColorSecondary" type="ColorPickerButton" parent="Menu/Join Game Dialauge/MarginContainer/VBoxContainer/VehicleColorBox"]
 layout_mode = 2
+size_flags_horizontal = 3
 text = "Primary"
 color = Color(0.269857, 0.269857, 0.269857, 1)
+
+[node name="EmptySpace" type="Panel" parent="Menu/Join Game Dialauge/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_k5ufn")
+
+[node name="SubLabel" type="Label" parent="Menu/Join Game Dialauge/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Press [M] to open/close"
+label_settings = SubResource("LabelSettings_k5ufn")
+horizontal_alignment = 1
 
 [node name="port box" type="HBoxContainer" parent="Menu/Join Game Dialauge/MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -425,12 +442,6 @@ text = "HOST"
 custom_minimum_size = Vector2(75, 0)
 layout_mode = 2
 text = "JOIN"
-
-[node name="SubLabel" type="Label" parent="Menu/Join Game Dialauge/MarginContainer/VBoxContainer"]
-layout_mode = 2
-text = "Press [M] to open/close"
-label_settings = SubResource("LabelSettings_k5ufn")
-horizontal_alignment = 1
 
 [node name="LineEdit" type="Label" parent="Menu"]
 visible = false

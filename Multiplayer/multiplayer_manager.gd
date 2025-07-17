@@ -10,6 +10,8 @@ var _players_spawn_node : Node3D
 
 signal player_joined(id: int)
 signal player_left(id: int)
+signal local_joined
+
 
 
 func become_host(port:int = 8080):
@@ -29,6 +31,7 @@ func become_host(port:int = 8080):
 	
 	_remove_single_player()
 	_add_player_to_game(1)	# Since connect signal doesn't fire for server... and server id is always 1
+	local_joined.emit()
 
 
 func join(ip: String, port: int):
@@ -42,6 +45,7 @@ func join(ip: String, port: int):
 	multiplayer.multiplayer_peer = client_peer
 	
 	_remove_single_player()
+	local_joined.emit()
 
 
 func _add_player_to_game(id: int):
