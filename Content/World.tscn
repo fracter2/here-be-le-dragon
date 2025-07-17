@@ -28,7 +28,7 @@ ambient_light_source = 2
 ambient_light_color = Color(0.0228915, 0.090661, 1.8049e-08, 1)
 tonemap_mode = 4
 glow_enabled = true
-glow_hdr_threshold = 0.83
+glow_hdr_threshold = 0.8
 fog_enabled = true
 fog_light_color = Color(0.556957, 0.509324, 0.437992, 1)
 fog_light_energy = 0.33
@@ -234,6 +234,7 @@ func label_popup():
 "
 
 [node name="World" type="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0109041, 0, 0.00238419)
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_pq6nd")

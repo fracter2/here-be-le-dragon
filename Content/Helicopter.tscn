@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://d1gyep613eqe1"]
+[gd_scene load_steps=23 format=3 uid="uid://d1gyep613eqe1"]
 
 [ext_resource type="Script" uid="uid://dnxlejlb5vxb3" path="res://Content/helicopter.gd" id="1_nikds"]
 [ext_resource type="Script" uid="uid://ue7etq887xes" path="res://Multiplayer/multiplayer_input.gd" id="2_6r8wy"]
@@ -29,7 +29,93 @@ properties/3/spawn = true
 properties/3/replication_mode = 1
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_6r8wy"]
-size = Vector3(2, 2, 3.5)
+size = Vector3(1.75, 1.8, 3.5)
+
+[sub_resource type="Gradient" id="Gradient_6r8wy"]
+offsets = PackedFloat32Array(0, 0.338889, 0.555556)
+colors = PackedColorArray(0, 0, 0, 1, 0.0325283, 0.0325283, 0.0325282, 1, 0.0506573, 0.0506572, 0.0506572, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_te4uw"]
+domain_warp_fractal_type = 0
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_ih7gs"]
+as_normal_map = true
+bump_strength = 3.0
+color_ramp = SubResource("Gradient_6r8wy")
+noise = SubResource("FastNoiseLite_te4uw")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6r8wy"]
+albedo_color = Color(0.674402, 0.674402, 0.674402, 1)
+metallic = 0.73
+metallic_specular = 0.0
+roughness = 0.62
+normal_enabled = true
+normal_texture = SubResource("NoiseTexture2D_ih7gs")
+rim_tint = 0.6
+clearcoat = 0.64
+clearcoat_roughness = 0.94
+anisotropy = -1.0
+refraction_scale = 1.0
+
+[sub_resource type="Gradient" id="Gradient_ljlqh"]
+colors = PackedColorArray(0, 0, 0, 1, 0.0642829, 0.0642829, 0.0642829, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_3thc0"]
+noise_type = 0
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_wnsil"]
+as_normal_map = true
+color_ramp = SubResource("Gradient_ljlqh")
+noise = SubResource("FastNoiseLite_3thc0")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ih7gs"]
+metallic_specular = 0.8
+roughness = 0.26
+emission_enabled = true
+emission = Color(1, 1, 1, 1)
+emission_energy_multiplier = 1.54
+normal_enabled = true
+normal_texture = SubResource("NoiseTexture2D_wnsil")
+backlight = Color(0.0471107, 0.0471107, 0.0471107, 1)
+refraction_scale = -1.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ljlqh"]
+metallic = 1.0
+metallic_specular = 0.65
+roughness = 0.46
+
+[sub_resource type="Gradient" id="Gradient_kgety"]
+interpolation_mode = 2
+offsets = PackedFloat32Array(0, 0.388889, 0.544444, 1)
+colors = PackedColorArray(0, 0, 0, 1, 0.24552, 0.24552, 0.24552, 1, 0.579957, 0.579957, 0.579957, 1, 1, 1, 1, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_pgss7"]
+noise_type = 4
+frequency = 0.0107
+domain_warp_enabled = true
+domain_warp_type = 1
+domain_warp_frequency = 0.024
+domain_warp_fractal_type = 0
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_vb6b3"]
+as_normal_map = true
+normalize = false
+color_ramp = SubResource("Gradient_kgety")
+noise = SubResource("FastNoiseLite_pgss7")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3thc0"]
+metallic_specular = 0.53
+roughness = 0.66
+emission_enabled = true
+emission = Color(0.490196, 0.784314, 0.6, 1)
+emission_energy_multiplier = 1.54
+normal_texture = SubResource("NoiseTexture2D_vb6b3")
+rim = 0.04
+rim_tint = 0.67
+clearcoat = 0.17
+clearcoat_roughness = 0.17
+anisotropy = 1.0
+refraction_scale = 1.0
 
 [sub_resource type="Gradient" id="Gradient_nikds"]
 offsets = PackedFloat32Array(0.374269)
@@ -71,12 +157,13 @@ replication_config = SubResource("SceneReplicationConfig_te4uw")
 script = ExtResource("2_6r8wy")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.411, -0.511)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.00991112, -0.361394)
 shape = SubResource("BoxShape3D_6r8wy")
 metadata/_edit_group_ = true
 
 [node name="Body" type="CSGBox3D" parent="CollisionShape3D"]
-size = Vector3(2, 2, 3.5)
+size = Vector3(1.75, 1.8, 3.5)
+material = SubResource("StandardMaterial3D_6r8wy")
 
 [node name="SpotLight3D" type="SpotLight3D" parent="CollisionShape3D/Body"]
 transform = Transform3D(0.990268, -0.0471432, 0.130945, 0, 0.940881, 0.338738, -0.139173, -0.335441, 0.931724, -0.5, -0.61, -1.866)
@@ -97,21 +184,54 @@ spot_attenuation = 0.65
 spot_angle = 18.26
 spot_angle_attenuation = 0.267944
 
-[node name="Tail" type="CSGBox3D" parent="CollisionShape3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.661385, 3.62704)
+[node name="Cockpit Cutout" type="CSGBox3D" parent="CollisionShape3D/Body"]
+transform = Transform3D(1, 0, 0, 0, 0.766044, -0.642788, 0, 0.642788, 0.766044, 0, 0.975146, -1.64879)
+operation = 2
+size = Vector3(2.11, 1.672, 1)
+material = SubResource("StandardMaterial3D_ih7gs")
+
+[node name="Backend Cutout" type="CSGBox3D" parent="CollisionShape3D/Body"]
+transform = Transform3D(1, 0, 0, 0, 0.766044, -0.642788, 0, 0.642788, 0.766044, 0, -0.851291, 1.81468)
+operation = 2
+size = Vector3(2.11, 1.672, 1)
+
+[node name="Wings" type="CSGBox3D" parent="CollisionShape3D"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0.860343, 0.401711)
+size = Vector3(6.023, 0.384, 1)
+material = SubResource("StandardMaterial3D_ljlqh")
+
+[node name="TailJoint" type="Node3D" parent="CollisionShape3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.665238, 1.55538)
+
+[node name="Tail" type="CSGBox3D" parent="CollisionShape3D/TailJoint"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.00385278, 1.61553)
 size = Vector3(0.649, 0.704, 3.76259)
 
-[node name="Tail light" type="OmniLight3D" parent="CollisionShape3D/Tail"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0135685, 0.596987, 1.9501)
+[node name="Tail light" type="OmniLight3D" parent="CollisionShape3D/TailJoint/Tail"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0135685, 0.832137, 2.17237)
 light_color = Color(0.490883, 0.784855, 0.599776, 1)
-light_energy = 8.461
+light_energy = 8.5
+light_indirect_energy = 1.186
+light_size = 2.5
+light_specular = 0.01
+light_bake_mode = 0
+omni_range = 18.891
+omni_attenuation = 2.0
+
+[node name="Tail light Specular" type="OmniLight3D" parent="CollisionShape3D/TailJoint/Tail"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0135685, 0.77701, 2.17888)
+light_color = Color(0.490883, 0.784855, 0.599776, 1)
+light_energy = 1.343
+light_indirect_energy = 0.0
+light_size = 0.2
 light_bake_mode = 0
 omni_range = 9.43334
 omni_attenuation = 2.0
 
-[node name="CSGBox3D" type="CSGBox3D" parent="CollisionShape3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.860343, 0)
-size = Vector3(6.023, 0.384, 1)
+[node name="TailEnd" type="CSGBox3D" parent="CollisionShape3D/TailJoint"]
+transform = Transform3D(1, 0, 0, 0, 0.862955, -0.505281, 0, 0.505281, 0.862955, 0, 0.454, 3.52746)
+size = Vector3(0.4, 0.791, 0.4)
+material = SubResource("StandardMaterial3D_3thc0")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.915663, 0.401948, 0, -0.401948, 0.915663, -0.00338459, 9.57543, 10.5039)
@@ -130,6 +250,8 @@ visible = false
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="Label3D" type="Label3D" parent="."]
-transform = Transform3D(0.00839493, 0, -0.999965, 0, 1, 0, 0.999965, 0, 0.00839493, -1.05062, 0.0717086, -1.00268)
-text = "YOYOYODD"
+[node name="VehicleLabel" type="Label3D" parent="."]
+transform = Transform3D(0.00839493, 0, -0.999965, 0, 1, 0, 0.999965, 0, 0.00839493, -1.05062, -0.335418, -1.14451)
+modulate = Color(0.660971, 0.660971, 0.660971, 1)
+outline_modulate = Color(0.50629, 0.50629, 0.50629, 1)
+text = "Vehicle Name"
