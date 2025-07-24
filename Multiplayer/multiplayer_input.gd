@@ -5,6 +5,7 @@ var input_pitch:float = 0
 var input_barrel:float = 0
 var input_yaw:float = 0
 var input_thrust:float = 0
+var input_forward:float = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -18,7 +19,7 @@ func _ready() -> void:
 	input_barrel = Input.get_axis(&"barrel_right", &"barrel_left")
 	input_yaw = Input.get_axis(&"yaw_right", &"yaw_left")
 	input_thrust = Input.get_axis(&"thrust_down", &"thrust_up")
-
+	input_forward = Input.get_axis(&"backward", &"forward")
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta: float) -> void:
@@ -27,3 +28,4 @@ func _physics_process(delta: float) -> void:
 	input_barrel = Input.get_axis(&"barrel_right", &"barrel_left")
 	input_yaw = Input.get_axis(&"yaw_right", &"yaw_left")
 	input_thrust = Input.get_axis(&"thrust_down", &"thrust_up")
+	input_forward = Input.get_axis(&"backward", &"forward")

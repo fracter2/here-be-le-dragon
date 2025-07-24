@@ -13,6 +13,9 @@ properties/1/replication_mode = 1
 properties/2/path = NodePath(".:rotation")
 properties/2/spawn = true
 properties/2/replication_mode = 1
+properties/3/path = NodePath("CollisionShape3D/Wings:rotation:x")
+properties/3/spawn = true
+properties/3/replication_mode = 1
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_te4uw"]
 properties/0/path = NodePath("InputSynchronizer:input_pitch")
@@ -27,6 +30,9 @@ properties/2/replication_mode = 1
 properties/3/path = NodePath("InputSynchronizer:input_thrust")
 properties/3/spawn = true
 properties/3/replication_mode = 1
+properties/4/path = NodePath("InputSynchronizer:input_forward")
+properties/4/spawn = true
+properties/4/replication_mode = 1
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_6r8wy"]
 size = Vector3(1.75, 1.8, 3.5)
@@ -45,6 +51,7 @@ color_ramp = SubResource("Gradient_6r8wy")
 noise = SubResource("FastNoiseLite_te4uw")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6r8wy"]
+resource_local_to_scene = true
 albedo_color = Color(0.674402, 0.674402, 0.674402, 1)
 metallic = 0.73
 metallic_specular = 0.0
@@ -104,6 +111,7 @@ color_ramp = SubResource("Gradient_kgety")
 noise = SubResource("FastNoiseLite_pgss7")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3thc0"]
+resource_local_to_scene = true
 metallic_specular = 0.53
 roughness = 0.66
 emission_enabled = true
@@ -166,7 +174,7 @@ size = Vector3(1.75, 1.8, 3.5)
 material = SubResource("StandardMaterial3D_6r8wy")
 
 [node name="SpotLight3D" type="SpotLight3D" parent="CollisionShape3D/Body"]
-transform = Transform3D(0.990268, -0.0471432, 0.130945, 0, 0.940881, 0.338738, -0.139173, -0.335441, 0.931724, -0.5, -0.61, -1.866)
+transform = Transform3D(0.990268, -0.0471431, 0.130945, 0, 0.940881, 0.338738, -0.139173, -0.335441, 0.931724, -0.5, 0.0403475, -1.866)
 light_color = Color(0.490196, 0.784314, 0.6, 1)
 light_energy = 14.4
 spot_range = 300.0
@@ -175,7 +183,7 @@ spot_angle = 18.26
 spot_angle_attenuation = 0.267944
 
 [node name="SpotLight3D2" type="SpotLight3D" parent="CollisionShape3D/Body"]
-transform = Transform3D(0.990268, 0.0471432, -0.130945, 0, 0.940881, 0.338738, 0.139173, -0.335441, 0.931724, 0.5, -0.61, -1.866)
+transform = Transform3D(0.990268, 0.0471431, -0.130945, 0, 0.940881, 0.338738, 0.139173, -0.335441, 0.931724, 0.5, 0.0403475, -1.866)
 light_color = Color(0.490196, 0.784314, 0.6, 1)
 light_energy = 11.736
 light_size = 0.159
@@ -189,6 +197,16 @@ transform = Transform3D(1, 0, 0, 0, 0.766044, -0.642788, 0, 0.642788, 0.766044, 
 operation = 2
 size = Vector3(2.11, 1.672, 1)
 material = SubResource("StandardMaterial3D_ih7gs")
+
+[node name="Cockpit Light" type="OmniLight3D" parent="CollisionShape3D/Body"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.76948, -1.73015)
+light_color = Color(0.490883, 0.784855, 0.599776, 1)
+light_energy = 3.761
+light_size = 3.111
+light_specular = 0.001
+light_bake_mode = 0
+omni_range = 11.622
+omni_attenuation = 2.0
 
 [node name="Backend Cutout" type="CSGBox3D" parent="CollisionShape3D/Body"]
 transform = Transform3D(1, 0, 0, 0, 0.766044, -0.642788, 0, 0.642788, 0.766044, 0, -0.851291, 1.81468)

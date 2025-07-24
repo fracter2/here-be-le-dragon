@@ -1,6 +1,7 @@
-[gd_scene load_steps=29 format=3 uid="uid://cau8xekrywn03"]
+[gd_scene load_steps=30 format=3 uid="uid://cau8xekrywn03"]
 
 [ext_resource type="PackedScene" uid="uid://d1gyep613eqe1" path="res://Content/Helicopter.tscn" id="1_k5ufn"]
+[ext_resource type="Script" uid="uid://c44yxwbqih653" path="res://Multiplayer/player_entity_manager.gd" id="2_t4kx2"]
 
 [sub_resource type="Gradient" id="Gradient_k5ufn"]
 interpolation_color_space = 1
@@ -310,6 +311,7 @@ spawn_limit = 16
 
 [node name="Players" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.25382, 0)
+script = ExtResource("2_t4kx2")
 
 [node name="Menu" type="CanvasLayer" parent="."]
 
@@ -379,16 +381,18 @@ layout_mode = 2
 text = "Vehicle Colors"
 
 [node name="ColorPrimary" type="ColorPickerButton" parent="Menu/Join Game Dialauge/MarginContainer/VBoxContainer/VehicleColorBox"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Primary"
-color = Color(0.566967, 0.566967, 0.566967, 1)
+color = Color(0.67451, 0.67451, 0.67451, 1)
 
 [node name="ColorSecondary" type="ColorPickerButton" parent="Menu/Join Game Dialauge/MarginContainer/VBoxContainer/VehicleColorBox"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Primary"
-color = Color(0.269857, 0.269857, 0.269857, 1)
+color = Color(0.490196, 0.784314, 0.6, 1)
 
 [node name="EmptySpace" type="Panel" parent="Menu/Join Game Dialauge/MarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 8)
@@ -449,5 +453,8 @@ offset_bottom = 31.0
 text = "yo"
 script = SubResource("GDScript_hlcxu")
 
+[connection signal="text_changed" from="Menu/Join Game Dialauge/MarginContainer/VBoxContainer/VehicleNameBox/VehicleName" to="Players" method="_player_custom_name_changed"]
+[connection signal="color_changed" from="Menu/Join Game Dialauge/MarginContainer/VBoxContainer/VehicleColorBox/ColorPrimary" to="Players" method="_player_colors_changed" binds= [false]]
+[connection signal="color_changed" from="Menu/Join Game Dialauge/MarginContainer/VBoxContainer/VehicleColorBox/ColorSecondary" to="Players" method="_player_colors_changed" binds= [false]]
 [connection signal="button_down" from="Menu/Join Game Dialauge/MarginContainer/VBoxContainer/HBoxContainer/ButtonHost" to="Menu/Join Game Dialauge" method="_on_button_host_button_down"]
 [connection signal="button_down" from="Menu/Join Game Dialauge/MarginContainer/VBoxContainer/HBoxContainer/ButtonJoin" to="Menu/Join Game Dialauge" method="_on_button_join_button_down"]
