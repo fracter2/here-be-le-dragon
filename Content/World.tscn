@@ -26,7 +26,7 @@ process_mode = 3
 background_mode = 2
 sky = SubResource("Sky_hlcxu")
 ambient_light_source = 2
-ambient_light_color = Color(0.0228915, 0.090661, 1.8049e-08, 1)
+ambient_light_color = Color(0.0460012, 0.140394, 0, 1)
 tonemap_mode = 4
 glow_enabled = true
 glow_hdr_threshold = 0.8
@@ -237,14 +237,36 @@ far = 750.0
 script = SubResource("GDScript_k5ufn")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(0.913886, 0.132017, -0.383906, 0.265785, 0.520252, 0.811601, 0.306873, -0.843748, 0.440363, 0, 16.5198, 0)
+transform = Transform3D(0.913886, 0.132017, -0.383907, 0.265785, 0.520252, 0.811601, 0.306873, -0.843748, 0.440363, 0.754787, 14.9744, -2.86649)
 light_color = Color(0.813536, 0.762062, 0.713064, 1)
-light_energy = 1.046
+light_energy = 0.271
+light_specular = 1.274
+shadow_enabled = true
+directional_shadow_mode = 0
+directional_shadow_blend_splits = true
+directional_shadow_max_distance = 150.0
+
+[node name="DirectionalLight3D2" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.13821, -0.594484, -0.79214, 0.517202, 0.725418, -0.454171, 0.84463, -0.346926, 0.407729, 2.38419e-07, 14.9071, 2.38419e-07)
+visible = false
+light_color = Color(0.660946, 0.805902, 0.478931, 1)
+light_energy = 0.047
+directional_shadow_mode = 0
+sky_mode = 1
+
+[node name="DirectionalLight3D3" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.662615, -0.00389755, 0.74895, 0.51741, 0.725382, -0.453991, -0.541506, 0.688335, 0.482666, 2.38419e-07, 14.9071, 2.38419e-07)
+visible = false
+light_color = Color(0.660946, 0.805902, 0.478931, 1)
+light_energy = 0.047
+directional_shadow_mode = 0
+sky_mode = 1
 
 [node name="Map" type="Node3D" parent="."]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Map"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+layers = 2
 mesh = SubResource("PlaneMesh_k5ufn")
 metadata/_edit_group_ = true
 
@@ -257,6 +279,7 @@ shape = SubResource("BoxShape3D_k5ufn")
 
 [node name="CSGBox3D" type="CSGBox3D" parent="Map"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0045166, 0.0504408, -0.0130348)
+layers = 2
 use_collision = true
 size = Vector3(80, 5, 80)
 material = SubResource("StandardMaterial3D_hlcxu")
@@ -276,7 +299,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -56.6404, 1.28805, -6.01206)
 mesh = SubResource("CylinderMesh_by8gy")
 
 [node name="Singleplayer Helicopter" parent="." instance=ExtResource("1_k5ufn")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.51246, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.50524, 0)
 rotation_edit_mode = 2
 
 [node name="OmniLight3D" type="OmniLight3D" parent="."]

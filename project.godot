@@ -112,6 +112,12 @@ backward={
 ]
 }
 
+[layer_names]
+
+3d_render/layer_1="Default"
+3d_render/layer_2="Map"
+3d_render/layer_3="Helicoppi"
+
 [rendering]
 
 renderer/rendering_method="gl_compatibility"
