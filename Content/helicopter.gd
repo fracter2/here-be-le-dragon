@@ -28,11 +28,7 @@ func _ready() -> void:
 		$Camera3D.make_current()
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
-
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	if not multiplayer.is_server(): return
 	
 	var input_pitch:float = multiplayer_synchronizer.input_pitch

@@ -53,16 +53,8 @@ script/source = "extends Camera3D
 
 var prev_cam:Camera3D
 
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass # Replace with function body.
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
-
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	if Input.is_action_just_pressed(&\"debug_1\"):
 		if current and prev_cam != null:
 			if is_instance_valid(prev_cam):
@@ -177,10 +169,6 @@ func _ready() -> void:
 	MultiplayerManager.local_joined.connect(_on_sucessfull_join_or_host)
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
-
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed(&\"Menu\"):
@@ -226,7 +214,7 @@ func _ready() -> void:
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed(&\"debug_2\"): label_popup.rpc()
 
 
@@ -454,8 +442,9 @@ offset_bottom = 31.0
 text = "yo"
 script = SubResource("GDScript_hlcxu")
 
+[connection signal="spawned" from="MultiplayerSpawner" to="Players" method="_on_multiplayer_spawner_spawned"]
 [connection signal="text_changed" from="Menu/Join Game Dialauge/MarginContainer/VBoxContainer/VehicleNameBox/VehicleName" to="Players" method="_player_custom_name_changed"]
-[connection signal="color_changed" from="Menu/Join Game Dialauge/MarginContainer/VBoxContainer/VehicleColorBox/ColorPrimary" to="Players" method="_player_colors_changed" binds= [false]]
-[connection signal="color_changed" from="Menu/Join Game Dialauge/MarginContainer/VBoxContainer/VehicleColorBox/ColorSecondary" to="Players" method="_player_colors_changed" binds= [false]]
+[connection signal="color_changed" from="Menu/Join Game Dialauge/MarginContainer/VBoxContainer/VehicleColorBox/ColorPrimary" to="Players" method="_player_colors_changed"]
+[connection signal="color_changed" from="Menu/Join Game Dialauge/MarginContainer/VBoxContainer/VehicleColorBox/ColorSecondary" to="Players" method="_player_colors_changed"]
 [connection signal="button_down" from="Menu/Join Game Dialauge/MarginContainer/VBoxContainer/HBoxContainer/ButtonHost" to="Menu/Join Game Dialauge" method="_on_button_host_button_down"]
 [connection signal="button_down" from="Menu/Join Game Dialauge/MarginContainer/VBoxContainer/HBoxContainer/ButtonJoin" to="Menu/Join Game Dialauge" method="_on_button_join_button_down"]

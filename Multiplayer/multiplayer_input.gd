@@ -22,7 +22,7 @@ func _ready() -> void:
 	input_forward = Input.get_axis(&"backward", &"forward")
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	if Input.is_action_just_pressed(&"flip_pitch"): flip_pitch = flip_pitch * -1
 	input_pitch = Input.get_axis(&"pitch_down", &"pitch_up") * flip_pitch
 	input_barrel = Input.get_axis(&"barrel_right", &"barrel_left")
