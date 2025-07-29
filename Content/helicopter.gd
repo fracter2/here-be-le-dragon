@@ -16,6 +16,12 @@ class_name Helicopter extends RigidBody3D
 @export_group("Thrust", "thrust_")
 @export var thrust_up:float = 4
 
+@export_group("Wings")
+@export var angle_min: float = 0
+@export var angle_max: float = 90
+@export var angle_start: float = 90
+@export var angle_speed: float = 90
+
 
 @onready var debug_thrust_pointer: MeshInstance3D = $DebugThrustPointer
 @onready var input_display: Label = $UI/InputDisplay
@@ -28,24 +34,30 @@ func _ready() -> void:
 		$Camera3D.make_current()
 
 
-func _physics_process(_delta: float) -> void:
+func _physics_process(delta: float) -> void:
 	if not multiplayer.is_server(): return
 	
+	## Rotation
 	var input_pitch:float = multiplayer_synchronizer.input_pitch
 	var input_barrel:float = multiplayer_synchronizer.input_barrel
 	var input_yaw:float = multiplayer_synchronizer.input_yaw
-	var input_thrust:float = multiplayer_synchronizer.input_thrust
 	
 	var rot:Vector3 = Vector3(input_pitch * rotation_pitch, input_yaw * rotation_yaw, input_barrel * rotation_barrel)
 	if multiply_by_mass: rot *= mass
 	apply_torque(basis * rot)
 	
-	var thrust: Vector3 = (Vector3.UP * input_thrust * thrust_up)
+	## Wings
+	# since rotating "forward" means going from 90->0, it should be * -1
+	var angle_delta: float = multiplayer_synchronizer.input_forward * angle_speed * delta * -1
+	wings.rotation_degrees.x = clampf(wings.rotation_degrees.x + angle_delta, angle_min, angle_max)
+	
+	## Thrust
+	var input_thrust:float = multiplayer_synchronizer.input_thrust
+	var thrust: Vector3 = (Vector3.FORWARD * input_thrust * thrust_up)
 	if multiply_by_mass: thrust *= mass
-	apply_central_force(basis * thrust)
+	apply_central_force(wings.global_basis * thrust)
 	
 	input_display.text = "rot: " + str(rot) + "\thrust: " + str(thrust)
-	
 
 
 
