@@ -14,7 +14,9 @@ func _player_colors_changed(_color:Color = Color.WHITE):
 		print("no vehicle found")
 		return
 	
-	player.sync_colors.rpc(%ColorPrimary.color, %ColorSecondary.color)
+	Settings.color_primary = %ColorPrimary.color
+	Settings.color_secondary = %ColorSecondary.color
+	player.sync_colors.rpc(Settings.color_primary, Settings.color_secondary)
 
 func _player_custom_name_changed(_new_text:String = ""):
 	var player: Helicopter = get_heli_of_id(multiplayer.get_unique_id())
@@ -22,7 +24,8 @@ func _player_custom_name_changed(_new_text:String = ""):
 		print("no vehicle found")
 		return
 	
-	player.sync_name.rpc(%VehicleName.text)
+	Settings.vehicle_name = %VehicleName.text
+	player.sync_name.rpc(Settings.vehicle_name)
 
 
 func get_heli_of_id(id:int) -> Helicopter:

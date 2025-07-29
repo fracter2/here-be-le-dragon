@@ -358,6 +358,7 @@ text = "Multiplayer Panel"
 horizontal_alignment = 1
 
 [node name="PilotNameBox" type="HBoxContainer" parent="Menu/Join Game Dialauge/MarginContainer/VBoxContainer"]
+editor_description = "Not used!"
 visible = false
 layout_mode = 2
 

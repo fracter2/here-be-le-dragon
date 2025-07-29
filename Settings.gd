@@ -1,7 +1,7 @@
 extends Node
 
 
-var player_name: String = "Default Name"
+#var player_name: String = "Default Name"
 var vehicle_name: String = "Default Name"
 
 var color_primary: Color = Color("acacac")
