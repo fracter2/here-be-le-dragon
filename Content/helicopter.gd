@@ -58,6 +58,8 @@ func _physics_process(delta: float) -> void:
 	apply_central_force(wings.global_basis * thrust)
 	
 	input_display.text = "rot: " + str(rot) + "\thrust: " + str(thrust)
+	if Input.is_action_just_pressed(&"debug_2"):
+		print(PhysicsServer3D.body_get_direct_state(get_rid()).inverse_inertia.inverse())	#Print Inertia to adjust custom inertia
 
 
 
