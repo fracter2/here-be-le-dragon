@@ -21,6 +21,10 @@ config/icon="res://icon.svg"
 Settings="*res://Settings.gd"
 MultiplayerManager="*res://Multiplayer/multiplayer_manager.gd"
 
+[display]
+
+window/stretch/mode="viewport"
+
 [dotnet]
 
 project/assembly_name="Here be le dragons"
@@ -146,6 +150,8 @@ debug_2={
 3d_render/layer_1="Default"
 3d_render/layer_2="Map"
 3d_render/layer_3="Helicoppi"
+3d_physics/layer_1="Map"
+3d_physics/layer_2="Helicopti"
 
 [rendering]
 

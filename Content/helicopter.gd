@@ -26,7 +26,7 @@ class_name Helicopter extends RigidBody3D
 @onready var debug_thrust_pointer: MeshInstance3D = $DebugThrustPointer
 @onready var input_display: Label = $UI/InputDisplay
 @onready var multiplayer_synchronizer: MultiplayerSynchronizer = %InputSynchronizer
-@onready var wings: CSGBox3D = $CollisionShape3D/Wings
+@onready var wings: CollisionShape3D = $Wings
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -69,10 +69,9 @@ func sync_colors(primary_c:Color, secondary_c:Color):
 	$CollisionShape3D/Body/SpotLight3D2.light_color = secondary_c
 	$"CollisionShape3D/Body/Cockpit Light".light_color = secondary_c
 	
-	$"CollisionShape3D/TailJoint/Tail/Tail light".light_color = secondary_c
-	$"CollisionShape3D/TailJoint/Tail/Tail light Specular".light_color = secondary_c
-	$CollisionShape3D/TailJoint/TailEnd.material.albedo_color = secondary_c
-	
+	$"Tail/Mesh/Tail light".light_color = secondary_c
+	$"Tail/Mesh/Tail light Specular".light_color = secondary_c
+	$Tail/Mesh/TailEnd.material.albedo_color = secondary_c
 
 @rpc("any_peer", "call_local", "reliable")
 func sync_name(new_name:String):
