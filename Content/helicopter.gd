@@ -22,22 +22,28 @@ class_name Helicopter extends RigidBody3D
 @export var angle_start: float = 90
 @export var angle_speed: float = 90
 
+@export_group(("Refrences"))
 @onready var debug_thrust_pointer: MeshInstance3D = $DebugThrustPointer
 @onready var input_display: Label = $UI/InputDisplay
 @onready var multiplayer_synchronizer: MultiplayerSynchronizer = %InputSynchronizer
 @onready var wings: CollisionShape3D = $Wings
-@onready var audio_stream_player_3d: AudioStreamPlayer3D = $AudioStreamPlayer3D
+@onready var emote_quacc: AudioStreamPlayer3D = $"Emote Quacc"
+@onready var camera_third_person: Camera3D = $"Camera Third Person"
+@onready var camera_cockpit_view: Camera3D = $"CollisionShape3D/Body/Camera Cockpit View"
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	if player_id == multiplayer.get_unique_id():
-		$Camera3D.make_current()
+		camera_third_person.make_current()
 
 
 func _physics_process(delta: float) -> void:
 	if player_id == multiplayer.get_unique_id():
 		if Input.is_action_just_pressed(&"emote_quacc"):
 			play_quacc.rpc()
+		if Input.is_action_just_pressed(&"vehicle_swap_camera"):
+			if not camera_third_person.current: camera_third_person.make_current()
+			elif not camera_cockpit_view.current: camera_cockpit_view.make_current()
 	
 	if not multiplayer.is_server(): return
 	
@@ -69,7 +75,7 @@ func _physics_process(delta: float) -> void:
 
 @rpc("any_peer", "call_local", "reliable")
 func play_quacc():
-	audio_stream_player_3d.play()
+	emote_quacc.play()
 
 @rpc("any_peer", "call_local", "reliable")
 func sync_colors(primary_c:Color, secondary_c:Color):

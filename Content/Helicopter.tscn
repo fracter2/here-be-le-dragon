@@ -1,8 +1,9 @@
-[gd_scene load_steps=30 format=3 uid="uid://d1gyep613eqe1"]
+[gd_scene load_steps=32 format=3 uid="uid://d1gyep613eqe1"]
 
 [ext_resource type="Script" uid="uid://dnxlejlb5vxb3" path="res://Content/helicopter.gd" id="1_nikds"]
 [ext_resource type="Script" uid="uid://ue7etq887xes" path="res://Multiplayer/multiplayer_input.gd" id="2_6r8wy"]
 [ext_resource type="AudioStream" uid="uid://e5tdf28u0b3n" path="res://Duck/Quack.mp3" id="3_te4uw"]
+[ext_resource type="Texture2D" uid="uid://0brxrpbohqqu" path="res://Duck/filteredduck.png" id="4_ih7gs"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_6r8wy"]
 bounce = 0.25
@@ -109,6 +110,16 @@ normal_enabled = true
 normal_texture = SubResource("NoiseTexture2D_wnsil")
 backlight = Color(0.0471107, 0.0471107, 0.0471107, 1)
 refraction_scale = -1.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wnsil"]
+transparency = 1
+albedo_texture = ExtResource("4_ih7gs")
+texture_filter = 0
+billboard_mode = 1
+proximity_fade_distance = 28.19
+distance_fade_min_distance = 9.64
+distance_fade_max_distance = 3.68
+stencil_flags = 2
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_te4uw"]
 size = Vector3(6, 0.384, 1)
@@ -230,11 +241,29 @@ spot_angle = 18.26
 spot_angle_attenuation = 0.267944
 
 [node name="Cockpit Cutout" type="CSGBox3D" parent="CollisionShape3D/Body"]
-transform = Transform3D(1, 0, 0, 0, 0.766044, -0.642788, 0, 0.642788, 0.766044, 0, 0.975146, -1.64879)
+transform = Transform3D(1, 0, 0, 0, 0.58332807, -0.8122365, 0, 0.8122365, 0.58332807, 0, 0.8353366, -1.4394588)
 layers = 4
 operation = 2
 size = Vector3(2.11, 1.672, 1)
 material = SubResource("StandardMaterial3D_ih7gs")
+
+[node name="Cockpit Interior Cutout" type="CSGBox3D" parent="CollisionShape3D/Body"]
+transform = Transform3D(1.595545, 0, 0, 0, 1, 0, 0, 0, 0.53672415, 0, 0.29475743, -1.101085)
+operation = 2
+size = Vector3(1, 1.0366211, 2.1128845)
+
+[node name="Sprite Pilot" type="Sprite3D" parent="CollisionShape3D/Body"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.16819352, -0.86308414)
+material_override = SubResource("StandardMaterial3D_wnsil")
+cast_shadow = 0
+texture = ExtResource("4_ih7gs")
+
+[node name="Camera Cockpit View" type="Camera3D" parent="CollisionShape3D/Body"]
+transform = Transform3D(1, 0, 0, 0, 0.99983436, 0.018202903, 0, -0.018202903, 0.99983436, -0.00676918, 0.61679214, -0.82962126)
+doppler_tracking = 2
+fov = 96.29042
+near = 0.083
+far = 750.0
 
 [node name="Cockpit Light" type="OmniLight3D" parent="CollisionShape3D/Body"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.76948, -1.73015)
@@ -317,7 +346,7 @@ material = SubResource("StandardMaterial3D_3thc0")
 [node name="TailJoint" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.675149, 1.19399)
 
-[node name="Camera3D" type="Camera3D" parent="."]
+[node name="Camera Third Person" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.915663, 0.401948, 0, -0.401948, 0.915663, -0.00338459, 9.57543, 10.5039)
 fov = 71.1
 far = 750.0
@@ -340,5 +369,5 @@ modulate = Color(0.660971, 0.660971, 0.660971, 1)
 outline_modulate = Color(0.50629, 0.50629, 0.50629, 1)
 text = "Vehicle Name"
 
-[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+[node name="Emote Quacc" type="AudioStreamPlayer3D" parent="."]
 stream = ExtResource("3_te4uw")
