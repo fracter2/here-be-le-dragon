@@ -22,11 +22,11 @@ class_name Helicopter extends RigidBody3D
 @export var angle_start: float = 90
 @export var angle_speed: float = 90
 
-
 @onready var debug_thrust_pointer: MeshInstance3D = $DebugThrustPointer
 @onready var input_display: Label = $UI/InputDisplay
 @onready var multiplayer_synchronizer: MultiplayerSynchronizer = %InputSynchronizer
 @onready var wings: CollisionShape3D = $Wings
+@onready var audio_stream_player_3d: AudioStreamPlayer3D = $AudioStreamPlayer3D
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -35,6 +35,10 @@ func _ready() -> void:
 
 
 func _physics_process(delta: float) -> void:
+	if player_id == multiplayer.get_unique_id():
+		if Input.is_action_just_pressed(&"emote_quacc"):
+			play_quacc.rpc()
+	
 	if not multiplayer.is_server(): return
 	
 	## Rotation
@@ -60,8 +64,12 @@ func _physics_process(delta: float) -> void:
 	input_display.text = "rot: " + str(rot) + "\thrust: " + str(thrust)
 	if Input.is_action_just_pressed(&"debug_2"):
 		print(PhysicsServer3D.body_get_direct_state(get_rid()).inverse_inertia.inverse())	#Print Inertia to adjust custom inertia
+	
 
 
+@rpc("any_peer", "call_local", "reliable")
+func play_quacc():
+	audio_stream_player_3d.play()
 
 @rpc("any_peer", "call_local", "reliable")
 func sync_colors(primary_c:Color, secondary_c:Color):

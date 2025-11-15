@@ -1,7 +1,8 @@
-[gd_scene load_steps=29 format=3 uid="uid://d1gyep613eqe1"]
+[gd_scene load_steps=30 format=3 uid="uid://d1gyep613eqe1"]
 
 [ext_resource type="Script" uid="uid://dnxlejlb5vxb3" path="res://Content/helicopter.gd" id="1_nikds"]
 [ext_resource type="Script" uid="uid://ue7etq887xes" path="res://Multiplayer/multiplayer_input.gd" id="2_6r8wy"]
+[ext_resource type="AudioStream" uid="uid://e5tdf28u0b3n" path="res://Duck/Quack.mp3" id="3_te4uw"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_6r8wy"]
 bounce = 0.25
@@ -49,10 +50,10 @@ noise_type = 3
 domain_warp_fractal_type = 0
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_ih7gs"]
+noise = SubResource("FastNoiseLite_te4uw")
+color_ramp = SubResource("Gradient_6r8wy")
 as_normal_map = true
 bump_strength = 3.0
-color_ramp = SubResource("Gradient_6r8wy")
-noise = SubResource("FastNoiseLite_te4uw")
 
 [sub_resource type="Gradient" id="Gradient_te4uw"]
 interpolation_mode = 1
@@ -68,8 +69,8 @@ domain_warp_frequency = 0.032
 domain_warp_fractal_type = 0
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_ljlqh"]
-color_ramp = SubResource("Gradient_te4uw")
 noise = SubResource("FastNoiseLite_ih7gs")
+color_ramp = SubResource("Gradient_te4uw")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6r8wy"]
 resource_local_to_scene = true
@@ -94,9 +95,9 @@ colors = PackedColorArray(0, 0, 0, 1, 0.0642829, 0.0642829, 0.0642829, 1)
 noise_type = 0
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_wnsil"]
-as_normal_map = true
-color_ramp = SubResource("Gradient_ljlqh")
 noise = SubResource("FastNoiseLite_3thc0")
+color_ramp = SubResource("Gradient_ljlqh")
+as_normal_map = true
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ih7gs"]
 metallic_specular = 0.8
@@ -135,10 +136,10 @@ domain_warp_frequency = 0.024
 domain_warp_fractal_type = 0
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_vb6b3"]
+noise = SubResource("FastNoiseLite_pgss7")
+color_ramp = SubResource("Gradient_kgety")
 as_normal_map = true
 normalize = false
-color_ramp = SubResource("Gradient_kgety")
-noise = SubResource("FastNoiseLite_pgss7")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3thc0"]
 resource_local_to_scene = true
@@ -338,3 +339,6 @@ transform = Transform3D(0.00839493, 0, -0.999965, 0, 1, 0, 0.999965, 0, 0.008394
 modulate = Color(0.660971, 0.660971, 0.660971, 1)
 outline_modulate = Color(0.50629, 0.50629, 0.50629, 1)
 text = "Vehicle Name"
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("3_te4uw")
