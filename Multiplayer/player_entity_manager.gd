@@ -1,11 +1,13 @@
 extends Node3D
 
 
+@export var respawn_pos: Node3D 
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	#MultiplayerManager.player_joined.connect(sync_players)
-	pass
-
+	assert(respawn_pos != null, "SET RESPAWN NODE IN PLAYER_ENTITY_MANAGER")
+	(%RespawnButton as Button).pressed.connect(request_respawn)
 
 
 func _player_colors_changed(_color:Color = Color.WHITE):
@@ -45,3 +47,17 @@ func sync_players():
 
 func _on_multiplayer_spawner_spawned(_node: Node) -> void:
 	sync_players.rpc()
+
+	
+
+func request_respawn():
+	if multiplayer.is_server():
+		respawn_heli(multiplayer.get_unique_id())
+	else:
+		respawn_heli.rpc_id(1, multiplayer.get_unique_id())	# Server id
+
+
+@rpc("any_peer", "call_remote", "reliable")
+func respawn_heli(id: int):
+	get_heli_of_id(id).global_position = respawn_pos.global_position
+	
