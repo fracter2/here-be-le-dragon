@@ -493,7 +493,7 @@ unique_name_in_owner = true
 layout_mode = 2
 text = "RESPAWN"
 
-[node name="Controls Poppup" type="Label" parent="Menu"]
+[node name="Controls Panel" type="Label" parent="Menu"]
 anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
@@ -507,6 +507,7 @@ A / D - Roll
 ARROW KEYS - Pitch & Yaw
 
 P - Flip Pitch Direction
+T - Swap Camera
 L - Lights
 Q - Emote
 ESC - Open This Menu"
